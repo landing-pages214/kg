@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Kyle Goertzen — independent software builder and creator of digital systems.">
+<meta name="theme-color" content="#f5f7ef">
+<title>Kyle Goertzen — Technology / Software / Systems</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#10140f;
+  --muted:#687064;
+  --paper:#f6f8f0;
+  --white:#ffffff;
+  --soft:#e9eee2;
+  --green:#31c35b;
+  --green2:#0f8f3d;
+  --lime:#d7f84b;
+  --yellow:#ffe34d;
+  --dark:#111711;
+  --line:rgba(16,20,15,.12);
+  --shadow:0 30px 80px rgba(25,45,24,.12);
+  --max:1320px;
+  --display:"Space Grotesk",Arial,sans-serif;
+  --sans:"DM Sans",Arial,sans-serif;
+  --mono:"Space Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;color:var(--ink);background:var(--paper);font-family:var(--sans);
+  line-height:1.5;overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.025;
+  background-image:radial-gradient(rgba(16,20,15,.9) .6px,transparent .6px);
+  background-size:7px 7px;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+::selection{background:var(--lime);color:var(--ink)}
+.container{width:min(calc(100% - 48px),var(--max));margin:auto}
+.section{padding:125px 0}
+.mono{font-family:var(--mono)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;color:var(--green2);
+  font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase
+}
+.eyebrow:before{content:"";width:22px;height:3px;border-radius:4px;background:var(--green)}
+h1,h2,h3{font-family:var(--display);margin:0;font-weight:650;letter-spacing:-.055em}
+h2{font-size:clamp(3rem,6vw,6.8rem);line-height:.9}
+p{margin:0}
+
+/* announcement */
+.announcement{
+  min-height:34px;display:flex;align-items:center;justify-content:center;
+  padding:7px 20px;background:var(--dark);color:#edf4e9;
+  font:700 9px var(--mono);letter-spacing:.13em;text-transform:uppercase;text-align:center
+}
+.announcement b{color:var(--lime);margin-right:10px}
+
+/* header */
+.header{
+  position:sticky;top:0;z-index:5000;background:rgba(246,248,240,.9);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(18px)
+}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-badge{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:var(--dark);color:var(--lime);font:800 15px var(--display);
+  box-shadow:0 8px 24px rgba(17,23,17,.14)
+}
+.logo-name{display:block;font:800 16px var(--display);letter-spacing:-.02em}
+.logo-sub{display:block;color:#778073;font:7px var(--mono);letter-spacing:.12em;margin-top:1px}
+.desktop-nav{display:flex;gap:28px}
+.desktop-nav a{
+  color:#4d574c;font:700 9px var(--mono);letter-spacing:.08em;text-transform:uppercase
+}
+.desktop-nav a:hover{color:var(--green2)}
+.nav-cta,.button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:45px;padding:0 17px;border-radius:9px;font:800 9px var(--mono);
+  letter-spacing:.08em;text-transform:uppercase;transition:.22s ease
+}
+.nav-cta{background:var(--green);color:#071009}
+.nav-cta:hover,.button:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(49,195,91,.2)}
+.menu-btn{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:white}
+.menu-btn span,.menu-btn:before,.menu-btn:after{content:"";display:block;width:20px;height:2px;background:var(--ink);margin:4px auto;transition:.2s}
+.menu-btn.open span{opacity:0}.menu-btn.open:before{transform:translateY(6px) rotate(45deg)}.menu-btn.open:after{transform:translateY(-6px) rotate(-45deg)}
+
+/* mobile menu */
+.mobile-menu{
+  position:fixed;inset:0;z-index:4500;background:rgba(16,20,15,.28);
+  backdrop-filter:blur(8px);opacity:0;visibility:hidden;pointer-events:none;transition:.25s
+}
+.mobile-menu.open{opacity:1;visibility:visible;pointer-events:auto}
+.mobile-panel{
+  margin-top:110px;margin-left:auto;width:min(420px,calc(100% - 28px));margin-right:14px;
+  background:white;border:1px solid var(--line);border-radius:18px;padding:12px;
+  box-shadow:var(--shadow);transform:translateY(-15px);transition:.3s
+}
+.mobile-menu.open .mobile-panel{transform:none}
+.mobile-panel a{display:flex;justify-content:space-between;padding:16px;border-bottom:1px solid var(--line);font:700 20px var(--display)}
+.mobile-panel a:last-child{border:0}.mobile-panel a:after{content:"↗";color:var(--green2)}
+
+/* hero */
+.hero{
+  position:relative;overflow:hidden;padding:105px 0 75px;
+  background:
+    radial-gradient(circle at 80% 22%,rgba(215,248,75,.34),transparent 26%),
+    radial-gradient(circle at 12% 8%,rgba(49,195,91,.12),transparent 25%),
+    var(--paper)
+}
+.hero:after{
+  content:"";position:absolute;right:-140px;top:70px;width:560px;height:560px;border-radius:50%;
+  border:1px solid rgba(49,195,91,.15);box-shadow:0 0 0 60px rgba(49,195,91,.025),0 0 0 120px rgba(49,195,91,.018);
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:65px;align-items:center;position:relative;z-index:2}
+.hero-copy{max-width:780px}
+.kicker{
+  display:inline-flex;align-items:center;gap:9px;margin-bottom:25px;
+  color:#526050;font:700 9px var(--mono);letter-spacing:.12em;text-transform:uppercase
+}
+.kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(49,195,91,.12)}
+.hero h1{font-size:clamp(4.5rem,10vw,10rem);line-height:.79}
+.hero h1 .green{color:var(--green2)}
+.hero h1 .yellow{
+  color:var(--yellow);
+  -webkit-text-stroke:1px var(--ink);
+  text-shadow:5px 5px 0 var(--ink)
+}
+.hero-description{max-width:640px;margin-top:32px;color:#596255;font-size:16px;line-height:1.8}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.button{background:var(--dark);color:var(--lime);min-height:54px;padding:0 22px}
+.button.light{background:white;color:var(--ink);border:1px solid var(--line)}
+.hero-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:27px;color:#778073;font:700 8px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+
+/* technology visual */
+.device-stage{min-height:520px;position:relative;display:grid;place-items:center}
+.device{
+  width:min(470px,85vw);height:500px;border-radius:30px;background:var(--dark);
+  padding:13px;box-shadow:35px 35px 0 rgba(49,195,91,.12),var(--shadow);transform:rotate(2deg)
+}
+.device-screen{
+  height:100%;border-radius:20px;overflow:hidden;position:relative;
+  background:
+    linear-gradient(135deg,rgba(215,248,75,.13),transparent 35%),
+    #182019;border:1px solid rgba(215,248,75,.2);padding:24px;color:white
+}
+.screen-top{display:flex;justify-content:space-between;color:#b6c2b3;font:700 8px var(--mono);letter-spacing:.1em}
+.screen-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 18px var(--lime)}
+.screen-title{margin-top:75px;font:650 54px/.88 var(--display);letter-spacing:-.06em}
+.screen-title span{color:var(--lime)}
+.screen-line{height:1px;background:rgba(255,255,255,.13);margin:35px 0}
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{padding:17px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.04)}
+.metric small{display:block;color:#7f8b7d;font:700 7px var(--mono);text-transform:uppercase}
+.metric strong{display:block;margin-top:8px;font:700 20px var(--display)}
+.float{
+  position:absolute;padding:13px 15px;border:1px solid rgba(16,20,15,.13);border-radius:12px;
+  background:rgba(255,255,255,.94);box-shadow:0 15px 45px rgba(16,20,15,.12)
+}
+.float small{display:block;color:#7a8377;font:700 7px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.float strong{display:block;margin-top:4px;font:750 13px var(--display)}
+.f1{top:10%;left:0}.f2{right:-2%;top:38%;background:var(--lime)}.f3{left:5%;bottom:6%}
+
+/* marquee */
+.marquee{overflow:hidden;background:var(--yellow);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);white-space:nowrap}
+.marquee-track{display:flex;width:max-content;animation:marquee 25s linear infinite}
+.marquee-item{padding:16px 24px;color:var(--ink);font:800 17px var(--display);letter-spacing:-.01em;text-transform:uppercase}
+.marquee-item b{margin-left:22px}.marquee-item:nth-child(2n) b{color:var(--green2)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* intro / about */
+.about{background:white}
+.about-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:90px;align-items:start}
+.index-card{
+  position:sticky;top:105px;border-radius:20px;background:var(--dark);color:white;padding:30px;
+  min-height:520px;overflow:hidden;box-shadow:var(--shadow)
+}
+.index-card:after{
+  content:"KG";position:absolute;right:-35px;bottom:-65px;font:900 210px/1 var(--display);
+  color:rgba(215,248,75,.08);letter-spacing:-.12em
+}
+.index-card .num{color:var(--lime);font:700 9px var(--mono);letter-spacing:.14em}
+.index-card h3{margin-top:90px;font-size:58px;line-height:.88}
+.index-card p{position:absolute;left:30px;bottom:30px;max-width:240px;color:#a6b0a3;font-size:11px;line-height:1.7}
+.about-copy h2{margin-top:18px}
+.about-copy>p{max-width:700px;margin-top:27px;color:#5e675b;font-size:16px;line-height:1.9}
+.feature-list{margin-top:48px;border-top:1px solid var(--line)}
+.feature{
+  display:grid;grid-template-columns:55px 1fr auto;gap:20px;align-items:center;padding:23px 0;border-bottom:1px solid var(--line)
+}
+.feature-num{color:var(--green2);font:700 9px var(--mono)}
+.feature h3{font-size:24px}.feature p{margin-top:4px;color:#778073;font-size:11px}
+.feature-arrow{font-size:25px;color:var(--green2)}
+
+/* projects */
+.projects{background:#eef2e8}
+.project-head{display:flex;justify-content:space-between;align-items:end;gap:30px}
+.project-head p{max-width:430px;color:#626c60;font-size:13px;line-height:1.8}
+.project-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:55px}
+.project{
+  min-height:560px;border-radius:24px;padding:34px;position:relative;overflow:hidden;
+  border:1px solid var(--line);background:white;transition:.3s ease
+}
+.project:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.project.wallet{background:var(--dark);color:white;border-color:#273027}
+.project-top{display:flex;justify-content:space-between;align-items:center}
+.project-number{font:700 8px var(--mono);letter-spacing:.12em;color:var(--green2)}
+.wallet .project-number{color:var(--lime)}
+.status{padding:7px 9px;border-radius:99px;background:var(--soft);color:var(--green2);font:700 7px var(--mono);letter-spacing:.1em}
+.wallet .status{background:rgba(215,248,75,.12);color:var(--lime)}
+.project-icon{
+  margin-top:75px;width:68px;height:68px;border-radius:18px;display:grid;place-items:center;
+  background:var(--dark);color:var(--lime);font:800 20px var(--display)
+}
+.wallet .project-icon{background:var(--lime);color:var(--dark)}
+.project h3{margin-top:28px;font-size:clamp(2.8rem,5vw,5rem);line-height:.82}
+.project h3 span{color:var(--green2)}.wallet h3 span{color:var(--lime)}
+.project p{max-width:510px;margin-top:20px;color:#697267;font-size:13px;line-height:1.8}
+.wallet p{color:#a5afa2}
+.project-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:24px}
+.project-tags span{padding:7px 9px;border-radius:6px;background:var(--soft);color:#687264;font:700 7px var(--mono);letter-spacing:.08em}
+.wallet .project-tags span{background:rgba(255,255,255,.06);color:#9aa69a}
+.project-link{
+  position:absolute;left:34px;bottom:32px;display:inline-flex;align-items:center;gap:8px;
+  font:800 9px var(--mono);letter-spacing:.08em;text-transform:uppercase
+}
+.project-link:hover{color:var(--green2)}.wallet .project-link:hover{color:var(--lime)}
+
+/* systems */
+.systems{background:white}
+.systems-grid{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:end}
+.systems-copy p{max-width:650px;margin-top:28px;color:#626b60;font-size:15px;line-height:1.9}
+.system-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.system-card{padding:26px;border:1px solid var(--line);border-radius:16px;background:#f7f9f3;min-height:185px}
+.system-card b{color:var(--green2);font:700 8px var(--mono)}
+.system-card h3{margin-top:45px;font-size:25px}
+.system-card p{margin-top:8px;color:#70796d;font-size:10px;line-height:1.7}
+
+/* long story */
+.story{background:var(--yellow)}
+.story-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:90px}
+.story h2{font-size:clamp(3rem,6vw,6.3rem)}
+.story-copy{max-width:730px}
+.story-copy p{font-size:18px;line-height:1.85;color:#30382d}
+.story-copy p+p{margin-top:22px}
+.story-list{margin-top:38px;border-top:2px solid rgba(16,20,15,.18)}
+.story-list div{display:flex;justify-content:space-between;gap:20px;padding:17px 0;border-bottom:1px solid rgba(16,20,15,.15);font:700 10px var(--mono);text-transform:uppercase}
+.story-list span:last-child{color:var(--green2)}
+
+/* vision */
+.vision{background:var(--dark);color:white;padding:150px 0;position:relative;overflow:hidden}
+.vision:before{
+  content:"";position:absolute;width:700px;height:700px;border-radius:50%;right:-260px;top:-220px;
+  background:radial-gradient(circle,rgba(215,248,75,.17),transparent 68%)
+}
+.vision-inner{position:relative;z-index:2}
+.vision h2{max-width:1000px;margin-top:18px}.vision h2 span{color:var(--lime)}
+.vision p{max-width:700px;margin-top:30px;color:#aeb8aa;font-size:16px;line-height:1.9}
+.vision-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:60px}
+.vision-item{padding:22px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.035)}
+.vision-item b{display:block;color:var(--lime);font:700 8px var(--mono)}
+.vision-item strong{display:block;margin-top:18px;font:700 20px var(--display)}
+
+/* contact */
+.contact{background:#f7f9f3}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:center}
+.contact h2{margin-top:18px}.contact p{max-width:620px;margin-top:26px;color:#626b60;font-size:15px;line-height:1.9}
+.links{display:grid;gap:11px}
+.link-card{
+  display:flex;align-items:center;justify-content:space-between;padding:23px 20px;border:1px solid var(--line);
+  border-radius:13px;background:white;transition:.22s
+}
+.link-card:hover{transform:translateX(6px);border-color:rgba(49,195,91,.5);box-shadow:0 12px 30px rgba(25,45,24,.08)}
+.link-card small{display:block;color:#7a8477;font:700 7px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.link-card strong{display:block;margin-top:3px;font:700 17px var(--display)}
+.link-card span{color:var(--green2);font-size:22px}
+
+/* footer */
+footer{background:var(--dark);color:white;padding:80px 0 25px}
+.footer-grid{display:grid;grid-template-columns:1.4fr .7fr .7fr;gap:55px;padding-bottom:60px}
+.footer-brand p{max-width:390px;margin-top:18px;color:#8e998b;font-size:11px;line-height:1.8}
+.footer-heading{margin-bottom:16px;color:var(--lime);font:700 8px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+footer a{display:block;margin:10px 0;color:#98a296;font-size:10px}footer a:hover{color:white}
+.footer-bottom{display:flex;justify-content:space-between;gap:20px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);color:#6e796d;font:7px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* responsive */
+@media(max-width:1000px){
+  .desktop-nav,.nav-cta{display:none}.menu-btn{display:block}
+  .hero-grid,.about-grid,.systems-grid,.story-grid,.contact-grid{grid-template-columns:1fr}
+  .device-stage{min-height:470px;order:-1}.index-card{position:relative;top:auto;min-height:380px}
+  .project-grid{grid-template-columns:1fr}.project{min-height:520px}
+  .systems-grid{gap:45px}.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}
+}
+@media(max-width:650px){
+  .container{width:min(calc(100% - 30px),var(--max))}
+  .nav{height:68px}.section{padding:85px 0}
+  .hero{padding:80px 0 65px}.hero h1{font-size:clamp(4rem,20vw,6.3rem)}
+  .hero-description{font-size:14px}.hero-actions{display:grid;grid-template-columns:1fr}.button{width:100%}
+  .device-stage{min-height:390px}.device{height:390px;border-radius:23px}.screen-title{margin-top:50px;font-size:43px}
+  .f1{left:-5px}.f2{right:-8px}.f3{left:-4px}.float{padding:10px}
+  .about-grid{gap:45px}.index-card{min-height:330px}.index-card h3{margin-top:55px;font-size:48px}
+  .feature{grid-template-columns:35px 1fr}.feature-arrow{display:none}
+  .project-head{display:block}.project-head p{margin-top:20px}.project{padding:25px;min-height:500px}
+  .project-link{left:25px;bottom:25px}.project-icon{margin-top:55px}
+  .system-cards{grid-template-columns:1fr}.vision-bar{grid-template-columns:1fr}
+  .story-grid{gap:35px}.story-copy p{font-size:16px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:30px 20px}.footer-brand{grid-column:1/-1}
+  .footer-bottom{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+
+/* store/product layer */
+.store{background:#f4f6ee}
+.store-intro{display:flex;justify-content:space-between;gap:40px;align-items:end}
+.store-intro p{max-width:460px;color:#667064;font-size:13px;line-height:1.8}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.store-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;transition:.3s;position:relative}
+.store-card:hover{transform:translateY(-7px);box-shadow:var(--shadow)}
+.product-art{height:285px;background:#eef2e8;display:grid;place-items:center;position:relative;overflow:hidden}
+.product-art:before{content:"";position:absolute;width:270px;height:270px;border-radius:50%;background:rgba(215,248,75,.32);filter:blur(2px)}
+.product-art svg{width:82%;height:82%;position:relative;z-index:1}
+.product-info{padding:22px 23px 25px}
+.product-label{font:700 8px var(--mono);letter-spacing:.12em;color:var(--green2);text-transform:uppercase}
+.product-info h3{font-size:27px;margin-top:7px}
+.product-info p{color:#70796d;font-size:10px;line-height:1.7;margin-top:8px}
+.product-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.product-status{font:700 8px var(--mono);color:#7a8377}
+.product-arrow{width:34px;height:34px;border-radius:9px;background:var(--dark);color:var(--lime);display:grid;place-items:center}
+.store-banner{margin-top:16px;background:var(--dark);color:white;border-radius:20px;padding:25px 28px;display:flex;justify-content:space-between;align-items:center;gap:25px}
+.store-banner strong{font:650 25px var(--display)}
+.store-banner span{color:#a8b2a5;font-size:11px}
+.store-badge{color:var(--lime);font:700 8px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:1000px){.store-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.store-intro{display:block}.store-intro p{margin-top:20px}.store-grid{grid-template-columns:1fr}.product-art{height:260px}.store-banner{display:block}.store-banner span{display:block;margin-top:10px}}
+
+</style>
+</head>
+
+<body>
+<div class="announcement"><b>●</b> KYLE GOERTZEN / INDEPENDENT SOFTWARE / DIGITAL SYSTEMS / BUILDING IN PUBLIC</div>
+
+<header class="header">
+  <div class="container nav">
+    <a class="logo" href="#home" aria-label="Kyle Goertzen home">
+      <span class="logo-badge">KG</span>
+      <span><span class="logo-name">KYLE GOERTZEN</span><span class="logo-sub">SOFTWARE · SYSTEMS · CREATION</span></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#about">About</a><a href="#projects">Work</a><a href="#systems">Systems</a><a href="#story">Approach</a><a href="#store">Store</a><a href="#contact">Links</a>
+    </nav>
+    <a class="nav-cta" href="https://kyle20000.pythonanywhere.com" target="_blank" rel="noopener">View Kyle20000 ↗</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <nav class="mobile-panel">
+    <a href="#home">00 — Home</a><a href="#about">01 — About</a><a href="#projects">02 — Work</a><a href="#systems">03 — Systems</a><a href="#story">04 — Approach</a><a href="#store">05 — Store</a><a href="#contact">06 — Links</a>
+  </nav>
+</div>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-copy reveal">
+      <div class="kicker">Independent software builder · Kyle Goertzen</div>
+      <h1><span>Build.</span><br><span class="green">Ship.</span><br><span class="yellow">Repeat.</span></h1>
+      <p class="hero-description">Kyle Goertzen creates software from the interface down to the systems behind it. This is a personal technology portfolio focused on independent projects, practical experimentation and turning ideas into working digital products.</p>
+      <div class="hero-actions">
+        <a class="button" href="https://kyle20000.pythonanywhere.com" target="_blank" rel="noopener">Explore Kyle20000 ↗</a>
+        <a class="button light" href="#projects">See the work ↓</a>
+      </div>
+      <div class="hero-meta"><span>01 / SOFTWARE</span><span>02 / WEB</span><span>03 / SYSTEMS</span><span>04 / EXPERIMENTATION</span></div>
+    </div>
+
+    <div class="device-stage reveal">
+      <div class="device">
+        <div class="device-screen">
+          <div class="screen-top"><span>KYLE GOERTZEN / DIGITAL WORK</span><span class="screen-dot"></span></div>
+          <div class="screen-title">Software<br>with <span>purpose.</span></div>
+          <div class="screen-line"></div>
+          <div class="metric-row">
+            <div class="metric"><small>Focus</small><strong>Build</strong></div>
+            <div class="metric"><small>Direction</small><strong>Forward</strong></div>
+            <div class="metric"><small>Mode</small><strong>Independent</strong></div>
+            <div class="metric"><small>Output</small><strong>Systems</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="float f1"><small>Creator</small><strong>Kyle Goertzen</strong></div>
+      <div class="float f2"><small>Live system</small><strong>Kyle20000</strong></div>
+      <div class="float f3"><small>Approach</small><strong>Build → Test → Improve</strong></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="marquee-track">
+  <div class="marquee-item">KYLE GOERTZEN <b>✦</b></div><div class="marquee-item">SOFTWARE <b>✦</b></div><div class="marquee-item">DIGITAL SYSTEMS <b>✦</b></div><div class="marquee-item">BUILD FROM THE GROUND UP <b>✦</b></div>
+  <div class="marquee-item">KYLE GOERTZEN <b>✦</b></div><div class="marquee-item">SOFTWARE <b>✦</b></div><div class="marquee-item">DIGITAL SYSTEMS <b>✦</b></div><div class="marquee-item">BUILD FROM THE GROUND UP <b>✦</b></div>
+</div></div>
+
+<section class="section about" id="about">
+  <div class="container about-grid">
+    <div class="index-card reveal">
+      <div class="num">KYLE GOERTZEN / PROFILE 001</div>
+      <h3>MADE<br>TO<br>BUILD.</h3>
+      <p>Independent software creation across web experiences, application logic and backend systems.</p>
+    </div>
+    <div class="about-copy reveal">
+      <div class="eyebrow">About Kyle</div>
+      <h2>A personal lab for <span style="color:var(--green2)">real software.</span></h2>
+      <p>Kyle Goertzen builds his own projects and uses each one as a place to explore how software can work as a complete product. The work moves between user-facing experiences and the infrastructure that makes those experiences possible.</p>
+      <p style="margin-top:18px">Rather than presenting a long list of unrelated work, this site keeps the focus on Kyle and the systems he has actually created. The centerpiece is Kyle20000, alongside the broader technical thinking that goes into building independent digital products.</p>
+
+      <div class="feature-list">
+        <div class="feature"><div class="feature-num">01</div><div><h3>Start with an idea.</h3><p>Move from a concept toward something people can actually open and use.</p></div><div class="feature-arrow">↗</div></div>
+        <div class="feature"><div class="feature-num">02</div><div><h3>Build the interface.</h3><p>Make the product understandable, visual and usable.</p></div><div class="feature-arrow">↗</div></div>
+        <div class="feature"><div class="feature-num">03</div><div><h3>Build the system.</h3><p>Connect application logic, data and backend behavior into one working project.</p></div><div class="feature-arrow">↗</div></div>
+        <div class="feature"><div class="feature-num">04</div><div><h3>Keep improving.</h3><p>Treat every project as something that can become sharper over time.</p></div><div class="feature-arrow">↗</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="project-head reveal">
+      <div><div class="eyebrow">Selected Work</div><h2 style="margin-top:18px">One project.<br><span style="color:var(--green2)">One direction.</span></h2></div>
+      <p>This portfolio keeps the work centered on Kyle Goertzen and his technology projects. Explore the live system directly.</p>
+    </div>
+
+    <div class="project-grid">
+      <article class="project wallet reveal">
+        <div class="project-top"><span class="project-number">01 / DIGITAL SYSTEM</span><span class="status">LIVE</span></div>
+        <div class="project-icon">K2K</div>
+        <h3>Kyle<span>20000</span></h3>
+        <p>Kyle20000 is Kyle Goertzen's centralized ledger-based wallet system. It is built around user accounts, balances, peer-to-peer transfers, transaction history and backend-controlled digital records.</p>
+        <div class="project-tags"><span>PYTHON</span><span>BACKEND</span><span>LEDGER</span><span>WALLET</span><span>WEB</span></div>
+        <a class="project-link" href="https://kyle20000.pythonanywhere.com" target="_blank" rel="noopener">Open Kyle20000 ↗</a>
+      </article>
+
+      <article class="project reveal">
+        <div class="project-top"><span class="project-number">02 / PERSONAL TECHNOLOGY</span><span class="status">FEATURED</span></div>
+        <div class="project-icon">KG</div>
+        <h3>Kyle<br><span>Goertzen</span></h3>
+        <p>This website is the personal technology front door for Kyle Goertzen: a longer-form presentation of the builder, the ideas behind the work and the live system that represents it.</p>
+        <div class="project-tags"><span>DESIGN</span><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span><span>CREATIVE</span></div>
+        <a class="project-link" href="https://kyle20000.pythonanywhere.com" target="_blank" rel="noopener">Visit the live system ↗</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section systems" id="systems">
+  <div class="container systems-grid">
+    <div class="systems-copy reveal">
+      <div class="eyebrow">Systems Mindset</div>
+      <h2>Think in <span style="color:var(--green2)">layers.</span></h2>
+      <p>Modern software is more than a screen. Kyle's work looks at the connection between the interface a person sees and the application behavior, data and backend systems underneath it.</p>
+      <p style="margin-top:17px">That systems-first perspective is especially visible in Kyle20000, where the product is centered on a server-controlled ledger and the interactions around it.</p>
+    </div>
+    <div class="system-cards">
+      <article class="system-card reveal"><b>01 / EXPERIENCE</b><h3>Interface</h3><p>The visual layer that gives a digital system a clear, usable front end.</p></article>
+      <article class="system-card reveal"><b>02 / LOGIC</b><h3>Application</h3><p>The rules and behavior that connect actions to outcomes.</p></article>
+      <article class="system-card reveal"><b>03 / DATA</b><h3>Records</h3><p>Persistent information that lets an application remember its state.</p></article>
+      <article class="system-card reveal"><b>04 / INFRASTRUCTURE</b><h3>Backend</h3><p>The server-side foundation that makes the overall system operate.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section story" id="story">
+  <div class="container story-grid">
+    <div class="reveal">
+      <div class="eyebrow">The Approach</div>
+      <h2>Make the<br><strong>idea real.</strong></h2>
+    </div>
+    <div class="story-copy reveal">
+      <p>For Kyle Goertzen, building software is about moving from “what if?” to “here it is.” A project becomes more interesting when it stops being an idea and becomes something that can be opened, tested, improved and used.</p>
+      <p>That means thinking about both sides of the product: what the user experiences and what the system has to do behind the scenes. The goal is not simply to write code. It is to create a complete working thing.</p>
+      <div class="story-list">
+        <div><span>Explore</span><span>01</span></div>
+        <div><span>Design</span><span>02</span></div>
+        <div><span>Build</span><span>03</span></div>
+        <div><span>Test</span><span>04</span></div>
+        <div><span>Improve</span><span>05</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section store" id="store">
+  <div class="container">
+    <div class="store-intro reveal">
+      <div>
+        <div class="eyebrow">The Future Store</div>
+        <h2 style="margin-top:18px">Software today.<br><span style="color:var(--green2)">Technology next.</span></h2>
+      </div>
+      <p>A store-ready direction for Kyle Goertzen: digital products and software first, with a visual system designed to grow into computers, laptops and other technology products later.</p>
+    </div>
+
+    <div class="store-grid">
+      <article class="store-card reveal">
+        <div class="product-art">
+          <svg viewBox="0 0 500 330" role="img" aria-label="Original illustration of a modern laptop">
+            <defs><linearGradient id="lapA" x1="0" x2="1"><stop stop-color="#1b241b"/><stop offset=".55" stop-color="#334536"/><stop offset="1" stop-color="#101610"/></linearGradient></defs>
+            <ellipse cx="250" cy="287" rx="170" ry="13" fill="#cbd3c5"/>
+            <rect x="106" y="45" width="288" height="205" rx="14" fill="url(#lapA)" stroke="#10140f" stroke-width="7"/>
+            <rect x="121" y="60" width="258" height="175" rx="7" fill="#f8faf4"/>
+            <rect x="140" y="80" width="80" height="8" rx="4" fill="#d7f84b"/>
+            <rect x="140" y="105" width="180" height="11" rx="5" fill="#dce4d7"/>
+            <rect x="140" y="129" width="130" height="8" rx="4" fill="#31c35b"/>
+            <rect x="140" y="166" width="210" height="42" rx="9" fill="#edf2e8"/>
+            <circle cx="162" cy="187" r="10" fill="#31c35b"/>
+            <path d="M75 252h350l38 34H37z" fill="#aeb8aa" stroke="#10140f" stroke-width="7"/>
+            <rect x="203" y="263" width="94" height="7" rx="3.5" fill="#687064"/>
+          </svg>
+        </div>
+        <div class="product-info">
+          <div class="product-label">Future category / 01</div>
+          <h3>Laptops</h3>
+          <p>A future product category for powerful, clean technology presented with the same Kyle visual language.</p>
+          <div class="product-bottom"><span class="product-status">COMING LATER</span><span class="product-arrow">↗</span></div>
+        </div>
+      </article>
+
+      <article class="store-card reveal">
+        <div class="product-art">
+          <svg viewBox="0 0 500 330" role="img" aria-label="Original illustration of a desktop computer">
+            <ellipse cx="250" cy="284" rx="170" ry="13" fill="#cbd3c5"/>
+            <rect x="105" y="42" width="290" height="192" rx="13" fill="#111711" stroke="#10140f" stroke-width="7"/>
+            <rect x="121" y="58" width="258" height="160" rx="6" fill="#f8faf4"/>
+            <circle cx="343" cy="79" r="7" fill="#d7f84b"/>
+            <rect x="145" y="94" width="180" height="9" rx="4" fill="#31c35b"/>
+            <rect x="145" y="118" width="145" height="8" rx="4" fill="#d7ddd5"/>
+            <rect x="145" y="150" width="90" height="42" rx="8" fill="#e9eee2"/>
+            <rect x="248" y="150" width="108" height="42" rx="8" fill="#d7f84b"/>
+            <path d="M225 234h50l13 45h-76z" fill="#aeb8aa" stroke="#10140f" stroke-width="6"/>
+            <rect x="180" y="278" width="140" height="10" rx="5" fill="#697267"/>
+            <rect x="387" y="173" width="35" height="68" rx="7" fill="#29352a" stroke="#10140f" stroke-width="6"/>
+          </svg>
+        </div>
+        <div class="product-info">
+          <div class="product-label">Future category / 02</div>
+          <h3>Computers</h3>
+          <p>A store foundation designed to eventually support hardware, accessories and technology products alongside software.</p>
+          <div class="product-bottom"><span class="product-status">COMING LATER</span><span class="product-arrow">↗</span></div>
+        </div>
+      </article>
+
+      <article class="store-card reveal">
+        <div class="product-art">
+          <svg viewBox="0 0 500 330" role="img" aria-label="Original illustration of a modern smartphone">
+            <ellipse cx="250" cy="290" rx="115" ry="10" fill="#cbd3c5"/>
+            <rect x="162" y="25" width="176" height="265" rx="28" fill="#101610" stroke="#10140f" stroke-width="7"/>
+            <rect x="176" y="42" width="148" height="230" rx="18" fill="#f8faf4"/>
+            <rect x="226" y="50" width="48" height="7" rx="4" fill="#1b241b"/>
+            <circle cx="200" cy="83" r="8" fill="#31c35b"/>
+            <rect x="196" y="111" width="108" height="11" rx="5" fill="#d7f84b"/>
+            <rect x="196" y="137" width="90" height="7" rx="3" fill="#ccd4c8"/>
+            <rect x="196" y="170" width="108" height="53" rx="10" fill="#e9eee2"/>
+            <circle cx="218" cy="196" r="12" fill="#31c35b"/>
+            <rect x="240" y="187" width="45" height="7" rx="3" fill="#aeb8aa"/>
+            <rect x="240" y="201" width="32" height="6" rx="3" fill="#c7cec3"/>
+          </svg>
+        </div>
+        <div class="product-info">
+          <div class="product-label">Future category / 03</div>
+          <h3>Mobile Tech</h3>
+          <p>Phones and connected technology can eventually become part of the store's broader digital-product ecosystem.</p>
+          <div class="product-bottom"><span class="product-status">COMING LATER</span><span class="product-arrow">↗</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="store-banner reveal">
+      <div><div class="store-badge">Store architecture</div><strong>Built to expand beyond software.</strong></div>
+      <span>The product grid is intentionally ready for future categories, pricing, inventory and checkout.</span>
+    </div>
+  </div>
+</section>
+
+<section class="vision" id="vision">
+  <div class="container vision-inner reveal">
+    <div class="eyebrow" style="color:var(--lime)">The Vision</div>
+    <h2>Technology should feel <span>alive.</span></h2>
+    <p>Kyle Goertzen's direction is simple: keep creating, keep learning and keep pushing independent software projects further. A strong digital product can be technical underneath and still feel clear, immediate and exciting on the surface.</p>
+    <div class="vision-bar">
+      <div class="vision-item"><b>01</b><strong>Build independently</strong></div>
+      <div class="vision-item"><b>02</b><strong>Think systemically</strong></div>
+      <div class="vision-item"><b>03</b><strong>Keep shipping</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="container contact-grid">
+    <div class="reveal">
+      <div class="eyebrow">Live Work</div>
+      <h2>See what Kyle<br><span style="color:var(--green2)">built.</span></h2>
+      <p>The most direct way to explore Kyle Goertzen's current technology work is through the live Kyle20000 Wallet System.</p>
+    </div>
+    <div class="links reveal">
+      <a class="link-card" href="https://kyle20000.pythonanywhere.com" target="_blank" rel="noopener">
+        <div><small>LIVE PROJECT</small><strong>Kyle20000 Wallet System</strong></div><span>↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="#home"><span class="logo-badge">KG</span><span><span class="logo-name" style="color:white">KYLE GOERTZEN</span><span class="logo-sub">SOFTWARE · SYSTEMS · CREATION</span></span></a>
+        <p>A technology-focused personal site for Kyle Goertzen and the software systems he creates.</p>
+      </div>
+      <div><div class="footer-heading">Work</div><a href="https://kyle20000.pythonanywhere.com" target="_blank" rel="noopener">Kyle20000 ↗</a></div>
+      <div><div class="footer-heading">Navigate</div><a href="#about">About</a><a href="#projects">Work</a><a href="#systems">Systems</a><a href="#store">Store</a><a href="#home">Back to top ↑</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Kyle Goertzen</span><span>BUILD / SHIP / REPEAT</span></div>
+  </div>
+</footer>
+
+<script>
+const menuBtn=document.getElementById("menuBtn"),mobileMenu=document.getElementById("mobileMenu");
+function closeMenu(){mobileMenu.classList.remove("open");menuBtn.classList.remove("open");menuBtn.setAttribute("aria-expanded","false");mobileMenu.setAttribute("aria-hidden","true")}
+menuBtn.addEventListener("click",()=>{const open=!mobileMenu.classList.contains("open");if(open){mobileMenu.classList.add("open");menuBtn.classList.add("open");menuBtn.setAttribute("aria-expanded","true");mobileMenu.setAttribute("aria-hidden","false")}else closeMenu()});
+mobileMenu.querySelectorAll("a").forEach(a=>a.addEventListener("click",closeMenu));
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")}),{threshold:.1});
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
